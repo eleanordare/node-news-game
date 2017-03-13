@@ -27,13 +27,6 @@
         <% } %>
       </section>
 
-      <div class="again">
-        <button class="button button--ujarak button--border-thin button--text-thick"
-          onclick=refreshPage()>
-          Play Again
-        </button>
-      </div>
-
       <section id="correct" style="display:none">
         <h2>Correct!</h2>
         <p><a href="<%=val[4]%>">Check it out.</a></p>
@@ -43,7 +36,17 @@
         <h2>Nope.</h2>
       </section>
 
+      <br><br><br><br>
+
+      <section class="options">
+        <button class="button button--ujarak button--border-thin button--text-thick"
+          onclick=refreshPage()>
+          Play Again
+        </button>
+      </section>
+
     </section>
+
   </body>
 
   <script>
