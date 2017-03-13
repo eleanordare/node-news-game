@@ -16,14 +16,54 @@
       <div>
         <h1><%=val[1]%></h1>
         <h3><%=val[2]%></h3>
-        <h4><%=val[0]%></h4>
       </div>
       <section class="options">
         <% for(var i=0; i<4; i++) {%>
-           <button class="button button--ujarak button--border-thin button--text-thick" id="<%=val[3][i]%>"><%= val[3][i] %></button>
+           <button class="button button--ujarak button--border-thin button--text-thick"
+              id="<%=val[3][i].replace(/ /g,"-")%>"
+              onclick=choose('<%=val[3][i].replace(/ /g,"-")%>')>
+                  <%= val[3][i] %>
+           </button>
         <% } %>
       </section>
+
+      <div class="again">
+        <button class="button button--ujarak button--border-thin button--text-thick"
+          onclick=refreshPage()>
+          Play Again
+        </button>
+      </div>
+
+      <section id="correct" style="display:none">
+        <h2>Correct!</h2>
+        <p><a href="<%=val[4]%>">Check it out.</a></p>
+      </section>
+
+      <section id="incorrect" style="display:none">
+        <h2>Nope.</h2>
+      </section>
+
     </section>
   </body>
+
+  <script>
+
+  function choose(choice) {
+    if(choice.replace(/-/g," ") == "<%=val[0]%>"){
+      console.log("success!");
+      document.getElementById("correct").style.display = "inherit";
+      document.getElementById("incorrect").style.display = "none";
+    } else {
+      console.log("failure");
+      document.getElementById("incorrect").style.display = "inherit";
+      document.getElementById("correct").style.display = "none";
+    }
+  }
+
+  function refreshPage() {
+    location.reload(true);
+  }
+
+  </script>
 
 </html>

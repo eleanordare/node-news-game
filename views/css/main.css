@@ -164,7 +164,7 @@ h3 {
 }
 p {
   margin: 0 0 2em;
-  text-align: justify;
+  text-align: center;
 }
 p + h2 {
   margin-top: 2em;
@@ -202,4 +202,13 @@ pre {
 }
 .options{
   display:inline-block;
+}
+.again{
+  margin-right: auto;
+  margin-left: auto;
+  margin-top:50px;
+  text-align:center;
+}
+.again button {
+  margin:auto;
 }

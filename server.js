@@ -82,6 +82,8 @@ app.get('/', function (req, res) {
         }
         title = article["title"]
         description = article["description"]
+        articleURL = article["url"]
+        image = article["urlToImage"]
 
         // choose three random sources in addition to correct source
         var sourceOptions = [];
@@ -92,16 +94,13 @@ app.get('/', function (req, res) {
             sourceOptions[sourceOptions.length] = randomSource;
         }
 
-        var Source = toTitleCase(source);
-        var Title = title;
-        var Description = description;
-        var SourceOptions = sourceOptions;
         for (i = 0; i < sourceOptions.length; i++) {
-          SourceOptions[i] = toTitleCase(sourceOptions[i]);
+          sourceOptions[i] = toTitleCase(sourceOptions[i]);
         }
-        var SourceOptions = shuffle(SourceOptions)
+        var sourceOptions = shuffle(sourceOptions)
 
-        var values = [Source, Title, Description, SourceOptions]
+        var values = [toTitleCase(source), title, description, sourceOptions, articleURL, image]
+        console.log(values)
         res.render('index.html', {val: values});
 
       } catch (e) {
