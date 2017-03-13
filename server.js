@@ -18,9 +18,28 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 
 function toTitleCase(str){
   str = str.replace(/-/g,' ');
-  str = str.replace("bbc","BBC");
-  str = str.replace("cnn","CNN");
+  str = str.replace(/bbc/g,"BBC");
+  str = str.replace(/cnn/g,"CNN");
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 app.get('/', function (req, res) {
@@ -41,7 +60,7 @@ app.get('/', function (req, res) {
 
   var apiKey = "066301c377dd44cfbe7558f92871ff1e"
   var sortBy = "top"
-  var source = chosenSources[Math.floor(Math.random() * chosenSources.length + 1)]
+  var source = chosenSources[Math.floor(Math.random() * chosenSources.length)]
   var url = 'https://newsapi.org/v1/articles' + "?apiKey=" + apiKey + "&source=" + source + "&sortBy=" + sortBy
 
   var req = https.get(url, (result) => {
@@ -80,6 +99,7 @@ app.get('/', function (req, res) {
         for (i = 0; i < sourceOptions.length; i++) {
           SourceOptions[i] = toTitleCase(sourceOptions[i]);
         }
+        var SourceOptions = shuffle(SourceOptions)
 
         var values = [Source, Title, Description, SourceOptions]
         res.render('index.html', {val: values});
