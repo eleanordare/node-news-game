@@ -34,13 +34,13 @@ section{
 }
 body {
   color: #404040;
-  font-family: "Helvetica Neue",Helvetica,"Liberation Sans",Arial,sans-serif;
+  font-family: "Lora",serif!important;
   font-size: 14px;
   line-height: 1.4;
 }
 
 html {
-  font-family: sans-serif;
+  font-family: "Lora",serif!important;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -119,6 +119,15 @@ ul {
   .container {
     width: 1170px;
   }
+}
+
+@media (max-width: 1000px) {
+.content{}
+.options{left:25%;top:25%;position:absolute;width:50%;height:300px;background:#f0f;text-align:center;max-width:500px;max-height:500px;}
+}
+@media (min-width: 1000px) {
+.content{left:50%;top:25%;position:absolute;}
+.options{width:500px;height:100%;margin-left:-250px;height:300px;background:#f0f;text-align:center;max-width:500px;max-height:500px;}
 }
 
 a {
@@ -201,14 +210,20 @@ pre {
   font-family: Menlo,Monaco,"Liberation Mono",Consolas,monospace !important;
 }
 .options{
+  left: 50%;
+  margin: 0 0 0 -y;
+  text-align:center;
   display:inline-block;
 }
 .again{
-  margin-right: auto;
-  margin-left: auto;
-  margin-top:50px;
+  margin-top:200px;
   text-align:center;
+  display:block;
 }
 .again button {
   margin:auto;
+}
+#incorrect {
+  padding-top:2em;
+  padding-bottom:2em;
 }

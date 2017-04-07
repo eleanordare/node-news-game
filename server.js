@@ -12,6 +12,9 @@ app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
 app.use(express.static(__dirname + '/views/css'));
+app.use(express.static(__dirname + '/views/js'));
+app.use(express.static(__dirname + '/views/img'));
+app.use(express.static(__dirname + '/views/fonts'));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0'
@@ -84,6 +87,7 @@ app.get('/', function (req, res) {
         description = article["description"]
         articleURL = article["url"]
         image = article["urlToImage"]
+        date = article["publishedAt"]
 
         // choose three random sources in addition to correct source
         var sourceOptions = [];
@@ -99,9 +103,9 @@ app.get('/', function (req, res) {
         }
         var sourceOptions = shuffle(sourceOptions)
 
-        var values = [toTitleCase(source), title, description, sourceOptions, articleURL, image]
+        var values = [toTitleCase(source), title, description, sourceOptions, articleURL, image, date]
         console.log(values)
-        res.render('index.html', {val: values});
+        res.render('index2.html', {val: values});
 
       } catch (e) {
         console.log(e.message);
@@ -111,6 +115,10 @@ app.get('/', function (req, res) {
     console.log(`Got error: ${e.message}`);
   });
 });
+
+// app.get('/', function (req, res) {
+//   res.render('index2.html');
+// });
 
 // error handling
 app.use(function(err, req, res, next){

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>News</title>
+	<meta name="description" content="Effect inspiration for opening an image grid item." />
+	<meta name="keywords" content="image grid, effect, inspiration, css, javascript, animation, masonry" />
+	<meta name="author" content="Codrops" />
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" type="text/css" href="normalize.css" />
+	<link rel="stylesheet" type="text/css" href="demo.css" />
+	<link rel="stylesheet" type="text/css" href="style2.css" />
+	<link rel="stylesheet" type="text/css" href="buttons.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+	<script src="modernizr-custom.js"></script>
+</head>
+
+<body class="demo-2">
+	<div class="container">
+		<header class="codrops-header">
+			<h1><%=val[1]%> <span><%=val[2]%></span></h1>
+
+				<% for(var i=0; i<4; i++) {%>
+					 <button class="button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick"
+							id="<%=val[3][i].replace(/ /g,"-")%>"
+							onclick=choose('<%=val[3][i].replace(/ /g,"-")%>')
+							style="clear:both;">
+									<%= val[3][i] %>
+					 </button>
+				<% } %>
+
+			<div id="incorrect" style="display:none; clear:both; text-align:center; margin:4em; padding-top:3em">
+				<h2>Nope.</h2>
+			</div>
+
+		</header>
+
+			<div class="grid">
+
+				<div class="grid__item" data-size="1280x857">
+					<a href="<%=val[5]%>" id="openImg" class="img-wrap"><img src="<%=val[5]%>" id="imgLink" alt="img06" />
+						<div class="description description--grid">
+							<h3><%=val[1]%></h3>
+			        <p><%=val[2]%></p>
+							<div class="details">
+								<ul>
+									<li><span><%=val[0]%></span></li>
+								</ul>
+							</div>
+							<div class="options">
+								<button class="button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick"
+									onclick="window.open('<%=val[4]%>', '_blank')"
+									style="clear:both; margin-left:0!important; margin-top:2em!important">
+									Read More
+								</button>
+								<button class="button button--ujarak button--border-thick button--text-upper button--size-s button--inverted button--text-thick"
+									onclick=refreshPage() style="margin-top:2em!important">
+									Play Again
+								</button>
+							</div>
+						</div>
+					</a>
+				</div>
+
+			</div>
+			<!-- /grid -->
+			<div class="preview">
+				<button style="pointer-events: none; cursor: default;" class="action action--close"><span class="text-hidden">Close</span></button>
+				<div class="description description--preview"></div>
+			</div>
+			<!-- /preview -->
+
+		<!-- /content -->
+	</div>
+	<!-- /container -->
+
+
+
+	<script src="imagesloaded.pkgd.min.js"></script>
+	<script src="masonry.pkgd.min.js"></script>
+	<script src="classie.js"></script>
+	<script src="main.js"></script>
+	<script>
+
+		function choose(choice) {
+		  if(choice.replace(/-/g," ") == "<%=val[0]%>"){
+		    console.log("success!");
+				document.getElementById('openImg').click();
+				document.getElementById('imgLink').style.opacity = 1;
+				document.getElementById('imgLink').style.display = "inherit";
+		  } else {
+		    console.log("failure");
+		    document.getElementById("incorrect").style.display = "inherit";
+		  }
+		}
+
+		function refreshPage() {
+		  location.reload(true);
+		}
+
+		(function() {
+			var support = { transitions: Modernizr.csstransitions },
+				// transition end event name
+				transEndEventNames = { 'WebkitTransition': 'webkitTransitionEnd', 'MozTransition': 'transitionend', 'OTransition': 'oTransitionEnd', 'msTransition': 'MSTransitionEnd', 'transition': 'transitionend' },
+				transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+				onEndTransition = function( el, callback ) {
+					var onEndCallbackFn = function( ev ) {
+						if( support.transitions ) {
+							if( ev.target != this ) return;
+							this.removeEventListener( transEndEventName, onEndCallbackFn );
+						}
+						if( callback && typeof callback === 'function' ) { callback.call(this); }
+					};
+					if( support.transitions ) {
+						el.addEventListener( transEndEventName, onEndCallbackFn );
+					}
+					else {
+						onEndCallbackFn();
+					}
+				};
+
+			new GridFx(document.querySelector('.grid'), {
+				imgPosition : {
+					x : -0.5,
+					y : 1
+				},
+				onOpenItem : function(instance, item) {
+					instance.items.forEach(function(el) {
+						if(item != el) {
+							var delay = Math.floor(Math.random() * 50);
+							el.style.WebkitTransition = 'opacity .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1), -webkit-transform .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1)';
+							el.style.transition = 'opacity .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1), transform .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1)';
+							el.style.WebkitTransform = 'scale3d(0.1,0.1,1)';
+							el.style.transform = 'scale3d(0.1,0.1,1)';
+							el.style.opacity = 0;
+						}
+					});
+				},
+				onCloseItem : function(instance, item) {
+					instance.items.forEach(function(el) {
+						if(item != el) {
+							el.style.WebkitTransition = 'opacity .4s, -webkit-transform .4s';
+							el.style.transition = 'opacity .4s, transform .4s';
+							el.style.WebkitTransform = 'scale3d(1,1,1)';
+							el.style.transform = 'scale3d(1,1,1)';
+							el.style.opacity = 1;
+
+							onEndTransition(el, function() {
+								el.style.transition = 'none';
+								el.style.WebkitTransform = 'none';
+							});
+						}
+					});
+				}
+			});
+		})();
+	</script>
+</body>
+
+</html>
